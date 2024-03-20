@@ -3,10 +3,20 @@ import { useState } from "react";
 
 const ToDoFrom = ({ addTodo }) => {
   const [value, setValue] = useState("");
+  const [error, setError] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo(value);
-    setValue("");
+    if (value.trim() === "") {
+      setError("Field cannot be empty");
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    } else {
+      setError("");
+      addTodo(value);
+      setValue("");
+    }
   };
   return (
     <form action="" className="TodoForm" onSubmit={handleSubmit}>
@@ -20,6 +30,7 @@ const ToDoFrom = ({ addTodo }) => {
       <button type="submit" className="todo-btn">
         Add Task
       </button>
+      {error && <div style={{ color: "red" }}>{error}</div>}
     </form>
   );
 };
